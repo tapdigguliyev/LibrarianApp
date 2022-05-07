@@ -36,6 +36,7 @@ package com.raywenderlich.android.librarian
 
 import android.app.Application
 import com.raywenderlich.android.librarian.database.LibrarianDatabase
+import com.raywenderlich.android.librarian.model.Genre
 import com.raywenderlich.android.librarian.repository.LibrarianRepository
 import com.raywenderlich.android.librarian.repository.LibrarianRepositoryImpl
 
@@ -61,5 +62,26 @@ class App : Application() {
   override fun onCreate() {
     super.onCreate()
     instance = this
+
+    if (repository.getGenres().isEmpty()) {
+      repository.addGenres(
+        listOf(
+          Genre(name = "Action"),
+          Genre(name = "Adventure"),
+          Genre(name = "Classic"),
+          Genre(name = "Mystery"),
+          Genre(name = "Fantasy"),
+          Genre(name = "Sci-Fi"),
+          Genre(name = "History"),
+          Genre(name = "Horror"),
+          Genre(name = "Romance"),
+          Genre(name = "Short Story"),
+          Genre(name = "Biography"),
+          Genre(name = "Poetry"),
+          Genre(name = "Self-Help"),
+          Genre(name = "Young novel")
+        )
+      )
+    }
   }
 }
