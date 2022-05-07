@@ -35,7 +35,7 @@
 package com.raywenderlich.android.librarian
 
 import android.app.Application
-import com.raywenderlich.android.librarian.librarian.LibrarianDatabase
+import com.raywenderlich.android.librarian.database.LibrarianDatabase
 
 class App : Application() {
 

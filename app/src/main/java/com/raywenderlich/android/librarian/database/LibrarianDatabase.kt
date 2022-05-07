@@ -1,12 +1,12 @@
-package com.raywenderlich.android.librarian.librarian
+package com.raywenderlich.android.librarian.database
 
 import android.content.Context
 import androidx.room.*
 import androidx.room.RoomDatabase
-import com.raywenderlich.android.librarian.librarian.dao.BookDao
-import com.raywenderlich.android.librarian.librarian.dao.GenreDao
-import com.raywenderlich.android.librarian.librarian.dao.ReadingListDao
-import com.raywenderlich.android.librarian.librarian.dao.ReviewDao
+import com.raywenderlich.android.librarian.database.dao.BookDao
+import com.raywenderlich.android.librarian.database.dao.GenreDao
+import com.raywenderlich.android.librarian.database.dao.ReadingListDao
+import com.raywenderlich.android.librarian.database.dao.ReviewDao
 import com.raywenderlich.android.librarian.model.Book
 import com.raywenderlich.android.librarian.model.Genre
 
