@@ -40,6 +40,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.raywenderlich.android.librarian.App
 import com.raywenderlich.android.librarian.R
 import com.raywenderlich.android.librarian.model.relations.BookReview
 import com.raywenderlich.android.librarian.ui.addReview.AddBookReviewActivity
@@ -55,6 +56,7 @@ private const val REQUEST_CODE_ADD_REVIEW = 102
 class BookReviewsFragment : Fragment() {
 
   private val adapter by lazy { BookReviewAdapter(::onItemSelected, ::onItemLongTapped) }
+  private val repository by lazy { App.repository }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
       savedInstanceState: Bundle?): View? {
@@ -74,13 +76,13 @@ class BookReviewsFragment : Fragment() {
   }
 
   private fun initListeners() {
-    pullToRefresh.isEnabled = false
-
     addBookReview.setOnClickListener {
       startActivityForResult(
           AddBookReviewActivity.getIntent(requireContext()), REQUEST_CODE_ADD_REVIEW
       )
     }
+
+    pullToRefresh.setOnRefreshListener { loadBookReviews() }
   }
 
   private fun onItemSelected(item: BookReview) {
@@ -95,10 +97,12 @@ class BookReviewsFragment : Fragment() {
   }
 
   private fun removeReviewFromRepo(item: BookReview) {
-    // TODO remove item from DB
+    repository.removeReview(item.review)
+    loadBookReviews()
   }
 
   private fun loadBookReviews() {
-    // TODO set data in adapter
+    adapter.setData(repository.getReviews())
+    pullToRefresh.isRefreshing = false
   }
 }

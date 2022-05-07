@@ -9,6 +9,8 @@ import com.raywenderlich.android.librarian.model.Genre
 import com.raywenderlich.android.librarian.model.ReadingList
 import com.raywenderlich.android.librarian.model.Review
 import com.raywenderlich.android.librarian.model.relations.BookAndGenre
+import com.raywenderlich.android.librarian.model.relations.BookReview
+import com.raywenderlich.android.librarian.model.relations.ReadingListsWithBooks
 
 class LibrarianRepositoryImpl(
     private val bookDao: BookDao,
@@ -19,6 +21,8 @@ class LibrarianRepositoryImpl(
     override fun getBooks(): List<BookAndGenre> = bookDao.getBooks().map {
         BookAndGenre(it, genreDao.getGenreById(it.genreId))
     }
+
+    override fun getBookById(bookId: String): Book = bookDao.getBookById(bookId)
 
     override fun addBook(book: Book) = bookDao.addBook(book)
 
@@ -34,5 +38,24 @@ class LibrarianRepositoryImpl(
 
     override fun updateReview(review: Review) = reviewDao.updateReview(review)
 
+    override fun getReviews(): List<BookReview> = reviewDao.getReviews().map {
+        BookReview(it, bookDao.getBookById(it.bookId))
+    }
+
+    override fun getReviewById(reviewId: String): BookReview {
+        val review = reviewDao.getReviewById(reviewId)
+
+        return BookReview(review, bookDao.getBookById(review.bookId))
+    }
+
+    override fun removeReview(review: Review) = reviewDao.removeReview(review)
+
     override fun addReadingList(readingList: ReadingList) = readingListDao.addReadingList(readingList)
+
+    override fun getReadingLists(): List<ReadingListsWithBooks> =
+        readingListDao.getReadingLists().map {
+            ReadingListsWithBooks(it.id, it.name, emptyList())
+        }
+
+    override fun removeReadingList(readingList: ReadingList) = readingListDao.removeReadingList(readingList)
 }
