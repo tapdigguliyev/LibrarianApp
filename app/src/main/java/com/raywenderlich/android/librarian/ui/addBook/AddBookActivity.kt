@@ -40,6 +40,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import com.raywenderlich.android.librarian.App
 import com.raywenderlich.android.librarian.R
 import com.raywenderlich.android.librarian.model.Book
 import com.raywenderlich.android.librarian.model.Genre
@@ -47,6 +48,8 @@ import com.raywenderlich.android.librarian.utils.toast
 import kotlinx.android.synthetic.main.activity_add_book.*
 
 class AddBookActivity : AppCompatActivity() {
+
+  private val repository by lazy { App.repository }
 
   companion object {
     fun getIntent(context: Context): Intent = Intent(context, AddBookActivity::class.java)
@@ -64,15 +67,14 @@ class AddBookActivity : AppCompatActivity() {
     genrePicker.adapter = ArrayAdapter(
         this@AddBookActivity,
         android.R.layout.simple_spinner_dropdown_item,
-        listOf<Genre>().map { it.name }
+        repository.getGenres().map { it.name }
     )
   }
 
-  // TODO implement database call!
   private fun createBook() {
     val title = bookTitle.text.toString()
     val description = bookDescription.text.toString()
-    val genreId = ""
+    val genreId = repository.getGenres().firstOrNull { it.name == genrePicker.selectedItem }?.id
 
     if (title.isNotBlank() && description.isNotBlank() && !genreId.isNullOrBlank()) {
       val book = Book(
@@ -81,6 +83,7 @@ class AddBookActivity : AppCompatActivity() {
           genreId = genreId
       )
 
+      repository.addBook(book)
       toast("Book added! :]")
       setResult(Activity.RESULT_OK)
       finish()
