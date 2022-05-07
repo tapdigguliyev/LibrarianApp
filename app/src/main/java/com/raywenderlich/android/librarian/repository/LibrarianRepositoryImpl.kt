@@ -6,6 +6,8 @@ import com.raywenderlich.android.librarian.database.dao.ReadingListDao
 import com.raywenderlich.android.librarian.database.dao.ReviewDao
 import com.raywenderlich.android.librarian.model.Book
 import com.raywenderlich.android.librarian.model.Genre
+import com.raywenderlich.android.librarian.model.ReadingList
+import com.raywenderlich.android.librarian.model.Review
 import com.raywenderlich.android.librarian.model.relations.BookAndGenre
 
 class LibrarianRepositoryImpl(
@@ -20,9 +22,17 @@ class LibrarianRepositoryImpl(
 
     override fun addBook(book: Book) = bookDao.addBook(book)
 
+    override fun removeBook(book: Book) = bookDao.removeBook(book)
+
     override fun getGenres(): List<Genre> = genreDao.getGenres()
 
     override fun getGenreById(genreId: String): Genre = genreDao.getGenreById(genreId)
 
     override fun addGenres(genres: List<Genre>) = genreDao.addGenres(genres)
+
+    override fun addReview(review: Review) = reviewDao.addReview(review)
+
+    override fun updateReview(review: Review) = reviewDao.updateReview(review)
+
+    override fun addReadingList(readingList: ReadingList) = readingListDao.addReadingList(readingList)
 }

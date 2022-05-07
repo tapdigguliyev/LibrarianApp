@@ -12,4 +12,7 @@ interface BookDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addBook(book: Book)
+
+    @Delete
+    fun removeBook(book: Book)
 }
