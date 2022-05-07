@@ -3,6 +3,10 @@ package com.raywenderlich.android.librarian.librarian
 import android.content.Context
 import androidx.room.*
 import androidx.room.RoomDatabase
+import com.raywenderlich.android.librarian.librarian.dao.BookDao
+import com.raywenderlich.android.librarian.librarian.dao.GenreDao
+import com.raywenderlich.android.librarian.librarian.dao.ReadingListDao
+import com.raywenderlich.android.librarian.librarian.dao.ReviewDao
 import com.raywenderlich.android.librarian.model.Book
 import com.raywenderlich.android.librarian.model.Genre
 
@@ -28,4 +32,12 @@ abstract class LibrarianDatabase : RoomDatabase() {
                 .build()
         }
     }
+
+    abstract fun bookDao(): BookDao
+
+    abstract fun genreDao(): GenreDao
+
+    abstract fun readingListDao(): ReadingListDao
+
+    abstract fun reviewDao(): ReviewDao
 }
