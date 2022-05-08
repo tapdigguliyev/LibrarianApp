@@ -22,6 +22,8 @@ interface LibrarianRepository {
 
     fun getGenreById(genreId: String): Genre
 
+    fun getBooksByGenre(genreId: String): List<BookAndGenre>
+
     fun addGenres(genres: List<Genre>)
 
     fun addReadingList(readingList: ReadingList)
