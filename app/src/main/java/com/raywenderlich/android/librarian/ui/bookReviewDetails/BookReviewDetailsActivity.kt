@@ -37,6 +37,7 @@ package com.raywenderlich.android.librarian.ui.bookReviewDetails
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -113,7 +114,7 @@ class BookReviewDetailsActivity : AppCompatActivity() {
 //    adapter.setData(data.review.entries)
   }
 
-  private fun refreshData(id: String) = lifecycleScope.launch {
+  private suspend fun refreshData(id: String) {
     val storedReview = repository.getReviewById(id)
 
     bookReview = storedReview
