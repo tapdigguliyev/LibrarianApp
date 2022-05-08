@@ -2,6 +2,7 @@ package com.raywenderlich.android.librarian.database.dao
 
 import androidx.room.*
 import com.raywenderlich.android.librarian.model.Review
+import com.raywenderlich.android.librarian.model.relations.BookReview
 
 
 @Dao
@@ -14,11 +15,14 @@ interface ReviewDao {
     fun updateReview(review: Review)
 
     @Query("SELECT * FROM review")
-    fun getReviews(): List<Review>
+    fun getReviews(): List<BookReview>
 
     @Query("SELECT * FROM review WHERE id = :reviewId")
-    fun getReviewById(reviewId: String): Review
+    fun getReviewById(reviewId: String): BookReview
 
     @Delete
     fun removeReview(review: Review)
+
+    @Query("SELECT * FROM review WHERE rating >= :rating")
+    fun getReviewsByRating(rating: Int): List<BookReview>
 }

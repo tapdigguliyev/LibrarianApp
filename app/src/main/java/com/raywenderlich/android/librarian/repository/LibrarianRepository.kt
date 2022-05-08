@@ -41,4 +41,6 @@ interface LibrarianRepository {
     fun getReviewById(reviewId: String): BookReview
 
     fun removeReview(review: Review)
+
+    fun getBooksByRating(rating: Int): List<BookAndGenre>
 }
