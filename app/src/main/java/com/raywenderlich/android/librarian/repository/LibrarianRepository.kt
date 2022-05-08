@@ -18,13 +18,13 @@ interface LibrarianRepository {
 
     suspend fun removeBook(book: Book)
 
-    fun getGenres(): List<Genre>
+    suspend fun getGenres(): List<Genre>
 
-    fun getGenreById(genreId: String): Genre
+    suspend fun getGenreById(genreId: String): Genre
 
-    fun getBooksByGenre(genreId: String): List<BookAndGenre>
+    suspend fun getBooksByGenre(genreId: String): List<BookAndGenre>
 
-    fun addGenres(genres: List<Genre>)
+    suspend fun addGenres(genres: List<Genre>)
 
     suspend fun addReadingList(readingList: ReadingList)
 
@@ -32,15 +32,15 @@ interface LibrarianRepository {
 
     suspend fun removeReadingList(readingList: ReadingList)
 
-    fun addReview(review: Review)
+    suspend fun addReview(review: Review)
 
-    fun updateReview(review: Review)
+    suspend fun updateReview(review: Review)
 
-    fun getReviews(): List<BookReview>
+    suspend fun getReviews(): List<BookReview>
 
-    fun getReviewById(reviewId: String): BookReview
+    suspend fun getReviewById(reviewId: String): BookReview
 
-    fun removeReview(review: Review)
+    suspend fun removeReview(review: Review)
 
-    fun getBooksByRating(rating: Int): List<BookAndGenre>
+    suspend fun getBooksByRating(rating: Int): List<BookAndGenre>
 }

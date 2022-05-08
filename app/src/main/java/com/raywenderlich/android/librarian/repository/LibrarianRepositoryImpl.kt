@@ -26,30 +26,30 @@ class LibrarianRepositoryImpl(
 
     override suspend fun removeBook(book: Book) = bookDao.removeBook(book)
 
-    override fun getGenres(): List<Genre> = genreDao.getGenres()
+    override suspend fun getGenres(): List<Genre> = genreDao.getGenres()
 
-    override fun getGenreById(genreId: String): Genre = genreDao.getGenreById(genreId)
+    override suspend fun getGenreById(genreId: String): Genre = genreDao.getGenreById(genreId)
 
-    override fun getBooksByGenre(genreId: String): List<BookAndGenre> =
+    override suspend fun getBooksByGenre(genreId: String): List<BookAndGenre> =
         genreDao.getBooksByGenre(genreId).let { booksByGenre ->
             val books = booksByGenre.books ?: return emptyList()
 
             return books.map { BookAndGenre(it, booksByGenre.genre) }
         }
 
-    override fun addGenres(genres: List<Genre>) = genreDao.addGenres(genres)
+    override suspend fun addGenres(genres: List<Genre>) = genreDao.addGenres(genres)
 
-    override fun addReview(review: Review) = reviewDao.addReview(review)
+    override suspend fun addReview(review: Review) = reviewDao.addReview(review)
 
-    override fun updateReview(review: Review) = reviewDao.updateReview(review)
+    override suspend fun updateReview(review: Review) = reviewDao.updateReview(review)
 
-    override fun getReviews(): List<BookReview> = reviewDao.getReviews()
+    override suspend fun getReviews(): List<BookReview> = reviewDao.getReviews()
 
-    override fun getReviewById(reviewId: String): BookReview = reviewDao.getReviewById(reviewId)
+    override suspend fun getReviewById(reviewId: String): BookReview = reviewDao.getReviewById(reviewId)
 
-    override fun removeReview(review: Review) = reviewDao.removeReview(review)
+    override suspend fun removeReview(review: Review) = reviewDao.removeReview(review)
 
-    override fun getBooksByRating(rating: Int): List<BookAndGenre> {
+    override suspend fun getBooksByRating(rating: Int): List<BookAndGenre> {
         val reviewsByRating = reviewDao.getReviewsByRating(rating)
 
         return reviewsByRating.map { BookAndGenre(it.book, genreDao.getGenreById(it.book.genreId)) }

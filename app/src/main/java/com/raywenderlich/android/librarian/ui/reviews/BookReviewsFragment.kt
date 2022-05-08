@@ -39,6 +39,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.raywenderlich.android.librarian.App
 import com.raywenderlich.android.librarian.R
@@ -47,6 +48,7 @@ import com.raywenderlich.android.librarian.ui.addReview.AddBookReviewActivity
 import com.raywenderlich.android.librarian.ui.bookReviewDetails.BookReviewDetailsActivity
 import com.raywenderlich.android.librarian.utils.createAndShowDialog
 import kotlinx.android.synthetic.main.fragment_reviews.*
+import kotlinx.coroutines.launch
 
 /**
  * Fetches and displays notes from the API.
@@ -96,12 +98,12 @@ class BookReviewsFragment : Fragment() {
         onPositiveAction = { removeReviewFromRepo(item) })
   }
 
-  private fun removeReviewFromRepo(item: BookReview) {
+  private fun removeReviewFromRepo(item: BookReview) = lifecycleScope.launch {
     repository.removeReview(item.review)
     loadBookReviews()
   }
 
-  private fun loadBookReviews() {
+  private fun loadBookReviews() = lifecycleScope.launch {
     adapter.setData(repository.getReviews())
     pullToRefresh.isRefreshing = false
   }
