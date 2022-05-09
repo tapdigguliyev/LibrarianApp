@@ -35,7 +35,7 @@
 package com.raywenderlich.android.librarian
 
 import android.app.Application
-import android.util.Log
+import com.google.gson.Gson
 import com.raywenderlich.android.librarian.database.LibrarianDatabase
 import com.raywenderlich.android.librarian.model.Genre
 import com.raywenderlich.android.librarian.repository.LibrarianRepository
@@ -61,6 +61,8 @@ class App : Application() {
         database.reviewDao()
       )
     }
+
+    val gson by lazy { Gson() }
   }
 
   override fun onCreate() {

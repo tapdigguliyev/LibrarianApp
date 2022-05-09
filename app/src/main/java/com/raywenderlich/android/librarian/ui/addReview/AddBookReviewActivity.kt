@@ -87,7 +87,7 @@ class AddBookReviewActivity : AppCompatActivity() {
           rating = rating,
           notes = notes,
           imageUrl = imageUrl,
-//          entries = emptyList(),
+          entries = emptyList(),
           lastUpdatedDate = Date()
       )
 
