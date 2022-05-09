@@ -14,3 +14,9 @@ val migration_2_3 = object : Migration(2, 3) {
         database.execSQL("ALTER TABLE review ADD COLUMN entries TEXT NOT NULL DEFAULT ''")
     }
 }
+
+val migration_3_4 = object : Migration(3, 4) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE readingList ADD COLUMN bookIds TEXT NOT NULL DEFAULT ''")
+    }
+}

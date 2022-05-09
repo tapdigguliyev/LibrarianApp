@@ -40,14 +40,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.raywenderlich.android.librarian.App
 import com.raywenderlich.android.librarian.R
 import com.raywenderlich.android.librarian.model.BookItem
 import kotlinx.android.synthetic.main.dialog_add_book.*
+import kotlinx.coroutines.launch
 
 class BookPickerDialogFragment(private val onItemSelected: (String) -> Unit) : DialogFragment() {
 
   private val adapter by lazy { BookItemAdapter() }
+  private val repository by lazy { App.repository }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
       savedInstanceState: Bundle?): View? {
@@ -61,8 +65,8 @@ class BookPickerDialogFragment(private val onItemSelected: (String) -> Unit) : D
     initUi()
   }
 
-  private fun initUi() {
-    val books = listOf<BookItem>()
+  private fun initUi() = lifecycleScope.launch {
+    val books = repository.getBooks().map { BookItem(it.book.id, it.book.name, false) }
 
     bookOptionsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     bookOptionsRecyclerView.adapter = adapter

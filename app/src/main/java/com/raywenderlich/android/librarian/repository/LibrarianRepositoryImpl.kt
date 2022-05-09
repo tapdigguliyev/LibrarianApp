@@ -22,7 +22,7 @@ class LibrarianRepositoryImpl(
 ) : LibrarianRepository {
     override suspend fun getBooks(): List<BookAndGenre> = bookDao.getBooks()
 
-    override suspend fun getBookById(bookId: String): Book = bookDao.getBookById(bookId)
+    override suspend fun getBookById(bookId: String): BookAndGenre = bookDao.getBookById(bookId)
 
     override suspend fun addBook(book: Book) = bookDao.addBook(book)
 
@@ -62,16 +62,34 @@ class LibrarianRepositoryImpl(
     override suspend fun addReadingList(readingList: ReadingList) = readingListDao.addReadingList(readingList)
 
     override suspend fun getReadingLists(): List<ReadingListsWithBooks> =
-        readingListDao.getReadingLists().map {
-            ReadingListsWithBooks(it.id, it.name, emptyList())
+        readingListDao.getReadingLists().map { readingList ->
+            ReadingListsWithBooks(
+                readingList.id,
+                readingList.name,
+                readingList.bookIds.map { getBookById(it) })
         }
 
     override fun getReadingListsFlow(): Flow<List<ReadingListsWithBooks>> =
         readingListDao.getReadingListsFlow().map { items ->
-            items.map {
-                ReadingListsWithBooks(it.id, it.name, emptyList())
+            items.map { readingList ->
+                ReadingListsWithBooks(
+                    readingList.id,
+                    readingList.name,
+                    readingList.bookIds.map { getBookById(it) })
             }
         }
+
+    override suspend fun getReadingListById(readingListId: String): ReadingListsWithBooks {
+        return readingListDao.getReadingListById(readingListId).let { readingList ->
+        ReadingListsWithBooks(
+            readingList.id,
+            readingList.name,
+            readingList.bookIds.map { getBookById(it) }
+        )
+        }
+    }
+
+    override suspend fun updateReadingList(readingList: ReadingList) = readingListDao.updateReadingList(readingList)
 
     override suspend fun removeReadingList(readingList: ReadingList) = readingListDao.removeReadingList(readingList)
 }

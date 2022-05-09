@@ -38,7 +38,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.raywenderlich.android.librarian.App
 import com.raywenderlich.android.librarian.R
 import com.raywenderlich.android.librarian.model.Book
 import com.raywenderlich.android.librarian.model.ReadingList
@@ -49,10 +51,12 @@ import com.raywenderlich.android.librarian.utils.createAndShowDialog
 import com.raywenderlich.android.librarian.utils.gone
 import com.raywenderlich.android.librarian.utils.visible
 import kotlinx.android.synthetic.main.activity_reading_list_details.*
+import kotlinx.coroutines.launch
 
 class ReadingListDetailsActivity : AppCompatActivity() {
 
   private val adapter by lazy { BookAdapter(::onItemLongTapped) }
+  private val repository by lazy { App.repository }
   private var readingList: ReadingListsWithBooks? = null
 
   companion object {
@@ -107,11 +111,13 @@ class ReadingListDetailsActivity : AppCompatActivity() {
       return
     }
 
-    val refreshedList = readingList // TODO load from DB
-    readingList = refreshedList
+    lifecycleScope.launch {
+      val refreshedList = repository.getReadingListById(data.id)
+      readingList = refreshedList
 
-    adapter.setData(refreshedList?.books ?: emptyList())
-    pullToRefresh.isRefreshing = false
+      adapter.setData(refreshedList.books)
+      pullToRefresh.isRefreshing = false
+    }
   }
 
   private fun showBookPickerDialog() {
@@ -130,12 +136,14 @@ class ReadingListDetailsActivity : AppCompatActivity() {
 
       val newReadingList = ReadingList(
           data.id,
-          data.name
-//          bookIds
+          data.name,
+          bookIds
       )
-      // TODO update reading list
 
-      refreshList()
+      lifecycleScope.launch {
+        repository.updateReadingList(newReadingList)
+        refreshList()
+      }
     }
   }
 
@@ -147,13 +155,14 @@ class ReadingListDetailsActivity : AppCompatActivity() {
 
       val newReadingList = ReadingList(
           data.id,
-          data.name
-//          bookIds
+          data.name,
+          bookIds
       )
 
-      // TODO update reading list
-
-      refreshList()
+      lifecycleScope.launch {
+        repository.updateReadingList(newReadingList)
+        refreshList()
+      }
     }
   }
 
