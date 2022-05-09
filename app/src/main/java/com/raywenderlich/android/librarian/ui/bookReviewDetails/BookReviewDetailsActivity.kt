@@ -108,7 +108,7 @@ class BookReviewDetailsActivity : AppCompatActivity() {
     reviewTitle.text = data.book.name
     reviewRating.rating = data.review.rating.toFloat()
     reviewDescription.text = data.review.notes
-//    lastUpdated.text = formatDateToText(data.review.lastUpdatedDate)
+    lastUpdated.text = formatDateToText(data.review.lastUpdatedDate)
     bookGenre.text = genre.name
 
 //    adapter.setData(data.review.entries)

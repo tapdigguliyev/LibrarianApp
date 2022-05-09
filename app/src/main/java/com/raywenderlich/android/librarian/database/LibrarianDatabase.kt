@@ -3,6 +3,7 @@ package com.raywenderlich.android.librarian.database
 import android.content.Context
 import androidx.room.*
 import androidx.room.RoomDatabase
+import com.raywenderlich.android.librarian.database.converters.DateConverter
 import com.raywenderlich.android.librarian.database.dao.BookDao
 import com.raywenderlich.android.librarian.database.dao.GenreDao
 import com.raywenderlich.android.librarian.database.dao.ReadingListDao
@@ -19,6 +20,7 @@ const val DATABASE_VERSION = 1
     version = DATABASE_VERSION
 )
 
+@TypeConverters(DateConverter::class)
 abstract class LibrarianDatabase : RoomDatabase() {
 
     companion object{
@@ -30,7 +32,6 @@ abstract class LibrarianDatabase : RoomDatabase() {
                 LibrarianDatabase::class.java,
                 DATABASE_NAME
             )
-                .allowMainThreadQueries()
                 .build()
         }
     }

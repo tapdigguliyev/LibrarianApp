@@ -37,6 +37,8 @@ package com.raywenderlich.android.librarian.model
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.raywenderlich.android.librarian.database.converters.DateConverter
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -48,7 +50,8 @@ data class Review(
     val bookId: String,
     val rating: Int,
     val notes: String,
-    val imageUrl: String
+    val imageUrl: String,
+    @TypeConverters(DateConverter::class)
+    val lastUpdatedDate: Date
 //    val entries: List<ReadingEntry>,
-//    val lastUpdatedDate: Date
 ) : Parcelable
