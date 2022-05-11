@@ -86,7 +86,8 @@ class App : Application() {
             Genre(name = "Biography"),
             Genre(name = "Poetry"),
             Genre(name = "Self-Help"),
-            Genre(name = "Young novel")
+            Genre(name = "Young novel"),
+            Genre(name = "Dystopian")
           )
         )
       }

@@ -90,14 +90,6 @@ class ReadingListDetailsActivity : AppCompatActivity() {
 
     toolbar.title = data.name
 
-    if (data.books.isEmpty()) {
-      noBooksView.visible()
-      booksRecyclerView.gone()
-    } else {
-      noBooksView.gone()
-      booksRecyclerView.visible()
-    }
-
     booksRecyclerView.layoutManager = LinearLayoutManager(this)
     booksRecyclerView.adapter = adapter
     adapter.setData(data.books)
